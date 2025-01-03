@@ -1,0 +1,11 @@
+<mat-dialog-content>
+  <p>Please enter the category name</p>
+  <mat-form-field>
+    <mat-label>Category Name</mat-label>
+    <input matInput [(ngModel)]="categoryName" />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="save()" cdkFocusInitial>Save</button>
+</mat-dialog-actions>
