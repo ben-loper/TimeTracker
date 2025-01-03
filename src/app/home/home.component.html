@@ -1,0 +1,19 @@
+<div id="main-content">
+    <app-navigation></app-navigation>
+    <h1 style="justify-self: center;">Time Tracker</h1>
+    <div style="display: grid;">
+        <button mat-flat-button style="justify-self: right;">Add Category</button>
+        <div id="categories-list">
+            @if (!categories) {
+            <mat-card class="no-categories-card" appearance="outlined">
+                <mat-card-header>
+                    <mat-card-title>Create a category!</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>&lt;3</p>
+                </mat-card-content>
+            </mat-card>
+            }
+        </div>
+    </div>
+</div>
