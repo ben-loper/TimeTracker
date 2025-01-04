@@ -4,11 +4,11 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { CategoryDto } from '../../models/CategoryDto';
 import {MatInputModule} from '@angular/material/input';
 import {FormsModule} from '@angular/forms';
-import { CategoryService } from '../../services/category-service.service';
+import { CategoryService } from '../../services/category.service';
 
 
 @Component({
-  selector: 'app-category-modal',
+  selector: 'app-category-dialog',
   standalone: true,
   imports: [
     MatDialogContent,
@@ -17,11 +17,11 @@ import { CategoryService } from '../../services/category-service.service';
     MatInputModule,
     FormsModule
   ],
-  templateUrl: './category-modal.component.html',
-  styleUrl: './category-modal.component.css'
+  templateUrl: './category-dialog.component.html',
+  styleUrl: './category-dialog.component.css'
 })
-export class CategoryModalComponent implements OnInit {
-  readonly dialogRef = inject(MatDialogRef<CategoryModalComponent>);
+export class CategoryDialogComponent implements OnInit {
+  readonly dialogRef = inject(MatDialogRef<CategoryDialogComponent>);
 
   readonly categoryService = inject<CategoryService>(CategoryService);
 

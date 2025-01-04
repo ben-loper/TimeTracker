@@ -2,9 +2,9 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { NavigationComponent } from "../navigation/navigation.component";
-import { CategoryService } from '../../services/category-service.service';
+import { CategoryService } from '../../services/category.service';
 import { MatDialog } from '@angular/material/dialog';
-import { CategoryModalComponent } from '../category-modal/category-modal.component';
+import { CategoryDialogComponent } from '../category-dialog/category-dialog.component';
 import { CategoryCardComponent } from '../category-card/category-card.component';
 import { CategoryVM } from '../../models/CategoryVM';
 
@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
   }
 
   openCategoryDialog(id: string | undefined = undefined, categoryName: string | undefined = undefined) : void {
-    const dialogRef = this.dialog.open(CategoryModalComponent, {
+    const dialogRef = this.dialog.open(CategoryDialogComponent, {
       data: {id: id, categoryName: categoryName},
     });
    
@@ -45,5 +45,9 @@ export class HomeComponent implements OnInit {
       },
       error: (err) => console.log(err)
     });
+  }
+
+  timeEntrySaved(entitySaved: boolean) {
+    if (entitySaved) this.getCategories();
   }
 }

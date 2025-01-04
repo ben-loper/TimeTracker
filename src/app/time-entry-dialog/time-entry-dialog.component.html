@@ -1,0 +1,15 @@
+<mat-dialog-content>
+    <p>Time Entry</p>
+    <mat-form-field>
+        <mat-label>Hours</mat-label>
+        <input matInput [(ngModel)]="hours" type="number" min="0"/>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Minutes</mat-label>
+        <input matInput [(ngModel)]="minutes" type="number" min="0"/>
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button (click)="save()" cdkFocusInitial>Save</button>
+</mat-dialog-actions>
