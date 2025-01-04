@@ -1,17 +1,15 @@
-import {v4 as uuidv4} from 'uuid';
 import { TimeEntryDto } from './TimeEntryDto';
 
 export class CategoryDto {
     name: string;
-    id: string;
+    id: string | null;
     timeEntries: TimeEntryDto[];
 
-    constructor(name: string, id: string | null = null){
-        if (!id) this.id = uuidv4();
-        else this.id = id;
-
+    constructor(name: string, id: string | null = null, timeEntries: TimeEntryDto[] | null = null){
+        this.id = id;
         this.name = name;
 
-        this.timeEntries = [];
+        if (timeEntries) this.timeEntries = timeEntries
+        else this.timeEntries = [];
     }
 }

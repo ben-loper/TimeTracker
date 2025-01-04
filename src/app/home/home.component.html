@@ -2,9 +2,9 @@
     <app-navigation></app-navigation>
     <h1 style="justify-self: center;">Time Tracker</h1>
     <div style="display: grid;">
-        <button mat-flat-button style="justify-self: right;" onclick="">Add Category</button>
+        <button mat-flat-button style="justify-self: right;" (click)="openCategoryDialog()">Add Category</button>
         <div id="categories-list">
-            @if (!categories) {
+            @if (!categoryViewModels) {
             <mat-card class="no-categories-card" appearance="outlined">
                 <mat-card-header>
                     <mat-card-title>Create a category!</mat-card-title>
@@ -13,6 +13,17 @@
                     <p>&lt;3</p>
                 </mat-card-content>
             </mat-card>
+            }
+
+            @else {
+                @for (category of categoryViewModels; track category) {
+                    <app-category-card 
+                    [categoryName]="category.name"
+                    [hours]="category.hours"
+                    [minutes]="category.minutes"
+                    ></app-category-card>
+                }
+                
             }
         </div>
     </div>
