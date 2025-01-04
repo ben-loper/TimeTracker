@@ -1,4 +1,4 @@
-import { Component, inject, Input, model, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { CategoryDto } from '../../models/CategoryDto';
