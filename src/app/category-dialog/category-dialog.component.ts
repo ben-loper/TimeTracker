@@ -1,9 +1,10 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
 import { CategoryDto } from '../../models/CategoryDto';
-import {MatInputModule} from '@angular/material/input';
-import {FormsModule} from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
 import { CategoryService } from '../../services/category.service';
 
 
@@ -15,7 +16,8 @@ import { CategoryService } from '../../services/category.service';
     MatDialogActions,
     MatFormFieldModule,
     MatInputModule,
-    FormsModule
+    FormsModule,
+    MatButtonModule
   ],
   templateUrl: './category-dialog.component.html',
   styleUrl: './category-dialog.component.css'

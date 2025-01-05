@@ -14,8 +14,16 @@
     color: #8b0000;
 }
 
+.delete-icon:hover {
+    cursor: pointer;
+}
+
 .edit-icon {
     font-size: 20px;
+}
+
+.edit-icon:hover {
+    cursor: pointer;
 }
 
 .card-content {
