@@ -17,6 +17,6 @@
     </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button mat-button (click)="onNoClick()">Cancel</button>
-    <button mat-button (click)="save()" cdkFocusInitial>Save</button>
+    <button class="cancel-btn" mat-stroked-button (click)="onNoClick()">Cancel</button>
+    <button class="submit-btn" mat-flat-button (click)="save()" cdkFocusInitial>Save</button>
 </mat-dialog-actions>

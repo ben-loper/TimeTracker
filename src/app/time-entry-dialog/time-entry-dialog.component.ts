@@ -2,10 +2,11 @@ import { Component, inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormsModule } from '@angular/forms';
 import { CategoryService } from '../../services/category.service';
 import { TimeEntryDto } from '../../models/TimeEntryDto';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-time-entry-dialog',
@@ -16,7 +17,8 @@ import { TimeEntryDto } from '../../models/TimeEntryDto';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatButtonModule
   ],
   templateUrl: './time-entry-dialog.component.html',
   styleUrl: './time-entry-dialog.component.css'
