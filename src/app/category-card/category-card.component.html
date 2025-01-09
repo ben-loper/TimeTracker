@@ -2,8 +2,8 @@
     <mat-card-header class="card-header">
         <mat-card-title>{{categoryName}}</mat-card-title>
         <div class="header-action-column">
-            <mat-icon class="edit-icon" aria-hidden="false" aria-label="Edit category" fontIcon="edit"></mat-icon>
-            <mat-icon class="delete-icon" aria-hidden="false" aria-label="Delete category" fontIcon="clear"></mat-icon>
+            <mat-icon class="edit-icon interactable" aria-hidden="false" aria-label="Edit category" fontIcon="edit" (click)="openCategoryDialog()"></mat-icon>
+            <mat-icon class="delete-icon interactable" aria-hidden="false" aria-label="Delete category" fontIcon="clear" (click)="openConfirmationDialog()"></mat-icon>
         </div>
     </mat-card-header>
     <mat-divider></mat-divider>
@@ -11,7 +11,7 @@
         <p>Hours: {{hours}}</p>
         <p>Minutes: {{minutes}}</p>
         <div class="action-column">
-            <mat-icon class="add-time-icon" aria-hidden="false" aria-label="Add time entry" fontIcon="add" (click)="openTimeEntryDialog()"></mat-icon>
+            <mat-icon class="add-time-icon interactable" aria-hidden="false" aria-label="Add time entry" fontIcon="add" (click)="openTimeEntryDialog()"></mat-icon>
         </div>
     </div>
 </mat-card>

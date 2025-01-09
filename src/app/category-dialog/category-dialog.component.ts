@@ -1,5 +1,5 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { CategoryDto } from '../../models/CategoryDto';
@@ -26,17 +26,15 @@ export class CategoryDialogComponent implements OnInit {
   readonly dialogRef = inject(MatDialogRef<CategoryDialogComponent>);
 
   readonly categoryService = inject<CategoryService>(CategoryService);
-
-  @Input() categoryName?: string;
-  @Input() categoryId: string | null = null;
+  data = inject<DialogData>(MAT_DIALOG_DATA);
 
   ngOnInit(): void {
-    if (this.categoryId) {
-      this.categoryService.getCategoryById(this.categoryId).subscribe({
+    if (this.data.categoryId) {
+      this.categoryService.getCategoryById(this.data.categoryId).subscribe({
         next: (category) => {
           if (category){
-            this.categoryId = category.id;
-            this.categoryName = category.name;
+            this.data.categoryId = category.id;
+            this.data.categoryName = category.name;
           }
         },
         error: (err) => console.log(err)
@@ -49,13 +47,24 @@ export class CategoryDialogComponent implements OnInit {
   }
 
   save(): void {
-    if (this.categoryName) {
-      const category = new CategoryDto(this.categoryName, this.categoryId);
-
-      this.categoryService.saveCategory(category).subscribe({
-        next: () => this.dialogRef.close(true),
-        error: (err) => console.log(err)
-      });
+    if (this.data.categoryName) {
+      if (this.data.categoryId) {
+        this.categoryService.updateCategoryName(this.data.categoryId, this.data.categoryName).subscribe({
+          next: () => this.dialogRef.close(true),
+          error: (err) => console.log(err)
+        });
+      } else {
+        const category = new CategoryDto(this.data.categoryName, this.data.categoryId);
+        this.categoryService.createCategory(category).subscribe({
+          next: () => this.dialogRef.close(true),
+          error: (err) => console.log(err)
+        });
+      }
     }
   }
+}
+
+export interface DialogData {
+  categoryId: string | null;
+  categoryName: string;
 }

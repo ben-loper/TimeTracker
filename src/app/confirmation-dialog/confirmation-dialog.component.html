@@ -1,0 +1,8 @@
+
+<mat-dialog-content>
+    <p>Are you sure you want to delete "{{data.resourceName}}"?</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+<button class="cancel-btn" mat-stroked-button (click)="onNoClick()">Cancel</button>
+<button class="submit-btn" mat-flat-button (click)="confirm()" cdkFocusInitial>Confirm</button>
+</mat-dialog-actions>

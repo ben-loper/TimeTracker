@@ -5,6 +5,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { TimeEntryDialogComponent } from '../time-entry-dialog/time-entry-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CategoryDialogComponent } from '../category-dialog/category-dialog.component';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { CategoryService } from '../../services/category.service';
 
 @Component({
   selector: 'app-category-card',
@@ -20,8 +23,9 @@ export class CategoryCardComponent {
   @Input() categoryId: string | null = null;
 
   readonly dialog = inject(MatDialog);
+  readonly categoryService = inject(CategoryService);
 
-  @Output() timeEntrySavedEvent = new EventEmitter<boolean>();
+  @Output() entitySavedEvent = new EventEmitter<boolean>();
 
   openTimeEntryDialog() {
     const dialogRef = this.dialog.open(TimeEntryDialogComponent, {
@@ -29,7 +33,33 @@ export class CategoryCardComponent {
     });
 
     dialogRef.afterClosed().subscribe(entitySaved => {
-      if (entitySaved) this.timeEntrySavedEvent.emit(true);
+      if (entitySaved) this.entitySavedEvent.emit(true);
+    })
+  }
+
+  openCategoryDialog() {
+    const dialogRef = this.dialog.open(CategoryDialogComponent, {
+      data: {categoryId: this.categoryId},
+    });
+
+    dialogRef.afterClosed().subscribe(entitySaved => {
+      if (entitySaved) this.entitySavedEvent.emit(true);
+    })
+  }
+
+  openConfirmationDialog() {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: {id: this.categoryId, resourceName: this.categoryName},
+    });
+
+    dialogRef.afterClosed().subscribe(entitySaved => {
+      if (entitySaved) {
+        if (this.categoryId)
+        this.categoryService.deleteCategory(this.categoryId).subscribe({
+          next: () => this.entitySavedEvent.emit(true),
+          error: (err) => {throw new Error(err)}
+        });
+      };
     })
   }
 }

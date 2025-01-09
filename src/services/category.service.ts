@@ -26,7 +26,7 @@ export class CategoryService {
   }
 
   public getCategoryById(id?: string): Observable<CategoryDto | undefined> {
-    if (!id) return of(undefined);
+    if (!id) throw new Error(`Category does not exist for ${id}`);
 
     let savedCategories: CategoryDto[] | undefined = [];
 
@@ -40,7 +40,7 @@ export class CategoryService {
     return of(savedCategories.find(category => category.id == id));
   }
 
-  public saveCategory(category: CategoryDto): Observable<CategoryDto | undefined> {
+  public createCategory(category: CategoryDto): Observable<CategoryDto | undefined> {
     let stringCategories = localStorage.getItem(this.key);
 
     if (!stringCategories) {
@@ -52,17 +52,86 @@ export class CategoryService {
 
     let categoryToSave = categoriesJson.find(savedCategory => savedCategory.id == category.id);
 
-    if (categoryToSave) {
-      categoryToSave.name = category.name;
-    }
-    else {
-      categoryToSave = new CategoryDto(category.name, uuidv4());
-      categoriesJson.push(categoryToSave);
-    }
+    if (categoryToSave) throw new Error(`Category already exists for categoryId ${category.id}`);
 
-    categoryToSave.timeEntries = category.timeEntries;
-
+    categoryToSave = new CategoryDto(category.name, uuidv4());
+    categoriesJson.push(categoryToSave);
+    
     localStorage.setItem(this.key, JSON.stringify(categoriesJson));
+
+    return of(categoryToSave);
+  }
+
+  public updateCategoryName(categoryId: string, newName: string): Observable<CategoryDto | undefined> {
+    let savedCategories: CategoryDto[] | undefined = [];
+
+    this.getCategories().subscribe({
+      next: (categories) => {
+        savedCategories = categories;
+      },
+      error: (err) => console.log(err)
+    });
+
+    if (!savedCategories) throw new Error('No categories in storage');
+
+    let categoryToSave = savedCategories.find(category => category.id == categoryId);
+
+    if (!categoryToSave) throw new Error(`Category does not exist for ${categoryId}`);
+
+    categoryToSave.name = newName;
+
+    localStorage.setItem(this.key, JSON.stringify(savedCategories));
+
+    return of(categoryToSave);
+  }
+
+  public deleteCategory(categoryId: string): Observable<boolean> {
+    let savedCategories: CategoryDto[] | undefined = [];
+
+    this.getCategories().subscribe({
+      next: (categories) => {
+        savedCategories = categories;
+      },
+      error: (err) => console.log(err)
+    });
+
+    if (!savedCategories) throw new Error('No categories in storage');
+
+    let categoryToDelete = savedCategories.find(category => category.id == categoryId);
+
+    if (!categoryToDelete) throw new Error(`Category does not exist for ${categoryId}`);
+
+    const index = savedCategories.indexOf(categoryToDelete);
+
+    savedCategories.splice(index, 1);
+
+    localStorage.setItem(this.key, JSON.stringify(savedCategories));
+
+    return of(true);
+  }
+
+  public addTimeEntry(categoryId: string, timeEntry: TimeEntryDto): Observable<CategoryDto | undefined> {
+    let savedCategories: CategoryDto[] | undefined = [];
+
+    this.getCategories().subscribe({
+      next: (categories) => {
+        savedCategories = categories;
+      },
+      error: (err) => console.log(err)
+    });
+
+    if (!savedCategories) throw new Error('No categories in storage');
+
+    let categoryToSave = savedCategories.find(category => category.id == categoryId);
+
+    if (!categoryToSave) throw new Error(`Category does not exist for ${categoryId}`);
+
+    timeEntry.hours += Math.floor(timeEntry.minutes / 60);
+    timeEntry.minutes = timeEntry.minutes % 60;
+
+    categoryToSave.timeEntries.push(timeEntry);
+
+    localStorage.setItem(this.key, JSON.stringify(savedCategories));
 
     return of(categoryToSave);
   }
@@ -88,41 +157,5 @@ export class CategoryService {
 
     return new CategoryVM(category.name, category.id, totalHours, totalMinutes);
 
-  }
-
-  public saveTimeEntry(timeEntry: TimeEntryDto, categoryId: string): Observable<TimeEntryDto | null> {
-    let savedEntry: TimeEntryDto | null = null;
-
-    if (!timeEntry || !categoryId) return of(savedEntry);
-
-    let categoryToSave: CategoryDto | undefined;
-
-    this.getCategoryById(categoryId).subscribe({
-      next: (category) => {
-        categoryToSave = category;
-      },
-      error: (err) => console.log(err)
-    });
-
-    if (!categoryToSave) return of(savedEntry);
-
-    if (!timeEntry.id) {
-      timeEntry.id = uuidv4();
-    }
-
-    timeEntry.hours += Math.floor(timeEntry.minutes / 60);
-    timeEntry.minutes = timeEntry.minutes % 60;
-
-    categoryToSave.timeEntries.push(timeEntry);
-
-    this.saveCategory(categoryToSave).subscribe({
-      next: (category) => {
-        categoryToSave = category;
-        savedEntry = timeEntry;
-      },
-      error: (err) => { throw new Error(err); }
-    })
-
-    return of(savedEntry);
   }
 }

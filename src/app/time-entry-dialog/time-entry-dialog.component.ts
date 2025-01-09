@@ -49,7 +49,7 @@ export class TimeEntryDialogComponent implements OnInit {
     if ((this.hours > 0 || this.minutes > 0) && this.date) {
       let timeEntry = new TimeEntryDto(null, this.hours, this.minutes, this.date);
 
-      this.categoryService.saveTimeEntry(timeEntry, this.data.categoryId).subscribe({
+      this.categoryService.addTimeEntry( this.data.categoryId, timeEntry).subscribe({
         next: (savedItem) => {
           if (savedItem){
             entitySaved = true;

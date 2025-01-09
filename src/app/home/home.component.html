@@ -4,6 +4,7 @@
     <div style="display: grid;">
         <button mat-flat-button style="justify-self: right;" (click)="openCategoryDialog()">Add Category</button>
         <div id="categories-list">
+
             @if (!categoryViewModels) {
             <mat-card class="no-categories-card" appearance="outlined">
                 <mat-card-header>
@@ -22,7 +23,7 @@
                     [hours]="category.hours"
                     [minutes]="category.minutes"
                     [categoryId]="category.id"
-                    (timeEntrySavedEvent)="timeEntrySaved($event)"
+                    (entitySavedEvent)="timeEntrySaved($event)"
                     ></app-category-card>
                 }
             }
