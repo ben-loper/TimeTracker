@@ -1,6 +1,6 @@
-<mat-card class="categories-card" appearance="outlined">
+<mat-card class="categories-card" appearance="outlined" >
     <mat-card-header class="card-header">
-        <mat-card-title>{{categoryName}}</mat-card-title>
+        <mat-card-title class="interactable" [routerLink]="['category', categoryId, 'time-entries']">{{categoryName}}</mat-card-title>
         <div class="header-action-column">
             <mat-icon class="edit-icon interactable" aria-hidden="false" aria-label="Edit category" fontIcon="edit" (click)="openCategoryDialog()"></mat-icon>
             <mat-icon class="delete-icon interactable" aria-hidden="false" aria-label="Delete category" fontIcon="clear" (click)="openConfirmationDialog()"></mat-icon>

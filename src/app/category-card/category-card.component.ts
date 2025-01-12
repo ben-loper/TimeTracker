@@ -8,11 +8,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { CategoryDialogComponent } from '../category-dialog/category-dialog.component';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { CategoryService } from '../../services/category.service';
+import {RouterModule} from '@angular/router';
 
 @Component({
   selector: 'app-category-card',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, MatIconModule, MatDividerModule],
+  imports: [MatCardModule, MatButtonModule, MatIconModule, MatDividerModule, RouterModule],
   templateUrl: './category-card.component.html',
   styleUrl: './category-card.component.css'
 })

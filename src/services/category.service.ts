@@ -136,6 +136,56 @@ export class CategoryService {
     return of(categoryToSave);
   }
 
+  public getTimeEntriesForCategory(categoryId: string): Observable<TimeEntryDto[] | null> {
+    let savedCategories: CategoryDto[] | undefined = [];
+
+    this.getCategories().subscribe({
+      next: (categories) => {
+        savedCategories = categories;
+      },
+      error: (err) => console.log(err)
+    });
+
+    if (!savedCategories) throw new Error('No categories in storage');
+
+    let category = savedCategories.find(category => category.id == categoryId);
+
+    if (!category) throw new Error(`Category does not exist for ${categoryId}`);
+
+    return of(category.timeEntries);
+  }
+
+  public editTimeEntry(categoryId: string, timeEntry: TimeEntryDto): Observable<CategoryDto | undefined> {
+
+    let savedCategories: CategoryDto[] | undefined = [];
+
+    this.getCategories().subscribe({
+      next: (categories) => {
+        savedCategories = categories;
+      },
+      error: (err) => console.log(err)
+    });
+
+    if (!savedCategories) throw new Error('No categories in storage');
+
+    let categoryToSave = savedCategories.find(category => category.id == categoryId);
+
+    if (!categoryToSave) throw new Error(`Category does not exist for ${categoryId}`);
+
+    const timeEntryToEdit = categoryToSave.timeEntries.find(entry => entry.id == timeEntry.id);
+
+    if (!timeEntryToEdit) throw new Error(`Time entry does not exist for ${timeEntry.id}`);
+
+    timeEntryToEdit.hours = timeEntry.hours + Math.floor(timeEntry.minutes / 60);
+    timeEntryToEdit.minutes = timeEntry.minutes % 60;
+
+    timeEntryToEdit.date = timeEntry.date;
+
+    localStorage.setItem(this.key, JSON.stringify(savedCategories));
+
+    return of(categoryToSave);
+  }
+
   public convertCategoryDtosToVm(categories: CategoryDto[]): CategoryVM[] {
     const viewModels: CategoryVM[] = [];
     categories.forEach(category => viewModels.push(this.convertCategoryDtoToVm(category)));

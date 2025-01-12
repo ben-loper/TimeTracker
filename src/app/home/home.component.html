@@ -1,5 +1,4 @@
 <div id="main-content">
-    <app-navigation></app-navigation>
     <h1 style="justify-self: center;">Time Tracker</h1>
     <div style="display: grid;">
         <button mat-flat-button style="justify-self: right;" (click)="openCategoryDialog()">Add Category</button>
@@ -17,15 +16,10 @@
             }
 
             @else {
-                @for (category of categoryViewModels; track category) {
-                    <app-category-card 
-                    [categoryName]="category.name"
-                    [hours]="category.hours"
-                    [minutes]="category.minutes"
-                    [categoryId]="category.id"
-                    (entitySavedEvent)="timeEntrySaved($event)"
-                    ></app-category-card>
-                }
+            @for (category of categoryViewModels; track category) {
+            <app-category-card [categoryName]="category.name" [hours]="category.hours" [minutes]="category.minutes"
+                [categoryId]="category.id" (entitySavedEvent)="timeEntrySaved($event)"></app-category-card>
+            }
             }
         </div>
     </div>
