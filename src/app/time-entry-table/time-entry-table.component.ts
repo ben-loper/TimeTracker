@@ -1,4 +1,5 @@
 import {AfterViewInit, Component, Input, OnInit, ViewChild, inject} from '@angular/core';
+import { CommonModule } from '@angular/common';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
@@ -16,7 +17,7 @@ import { CategoryService } from '../../services/category.service';
   standalone: true,
   styleUrl: 'time-entry-table.component.css',
   templateUrl: 'time-entry-table.component.html',
-  imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, DatePipe, MatIconModule, MatProgressSpinner],
+  imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, DatePipe, MatIconModule, MatProgressSpinner, CommonModule],
 })
 export class TimeEntryTableComponent implements AfterViewInit, OnInit {
   loading: boolean = true;
