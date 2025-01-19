@@ -1,10 +1,10 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild, inject} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
-import {MatSort, MatSortModule} from '@angular/material/sort';
-import {MatTableDataSource, MatTableModule} from '@angular/material/table';
-import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { TimeEntryDto } from '../../models/TimeEntryDto';
 import { DatePipe } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,10 +22,13 @@ import { CategoryService } from '../../services/category.service';
 export class TimeEntryTableComponent implements AfterViewInit, OnInit {
   loading: boolean = true;
   displayedColumns: string[] = ['date', 'hours', 'minutes', 'actions'];
-  @Input() timeEntries: TimeEntryDto[] = [];
+  timeEntries: TimeEntryDto[] = [];
   dataSource: MatTableDataSource<TimeEntryDto>;
 
   categoryId: string | null = null;
+  categoryName: string | null = null;
+  totalHours: number = 0;
+  totalMinutes: number = 0;
 
   route = inject(ActivatedRoute);
   categoryService = inject(CategoryService);
@@ -43,10 +46,16 @@ export class TimeEntryTableComponent implements AfterViewInit, OnInit {
       this.categoryId = params.get('categoryId');
 
       if (this.categoryId) {
-        this.categoryService.getTimeEntriesForCategory(this.categoryId).subscribe({
-          next: timeEntries => {
-            if (timeEntries) {
-              this.timeEntries = timeEntries;
+        this.categoryService.getCategoryById(this.categoryId).subscribe({
+          next: category => {
+            if (category) {
+              const vm = this.categoryService.convertCategoryDtoToVm(category);
+
+              this.totalHours = vm.hours;
+              this.totalMinutes = vm.minutes;
+
+              this.timeEntries = category.timeEntries;
+              this.categoryName = category.name;
               this.dataSource = new MatTableDataSource(this.timeEntries);
               this.loading = false;
             }
@@ -60,14 +69,5 @@ export class TimeEntryTableComponent implements AfterViewInit, OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
   }
 }

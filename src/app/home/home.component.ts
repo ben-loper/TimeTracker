@@ -1,7 +1,6 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { NavigationComponent } from "../navigation/navigation.component";
 import { CategoryService } from '../../services/category.service';
 import { MatDialog } from '@angular/material/dialog';
 import { CategoryDialogComponent } from '../category-dialog/category-dialog.component';
@@ -11,7 +10,7 @@ import { CategoryVM } from '../../models/CategoryVM';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [MatCardModule, MatButtonModule, NavigationComponent, CategoryCardComponent],
+  imports: [MatCardModule, MatButtonModule, CategoryCardComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
